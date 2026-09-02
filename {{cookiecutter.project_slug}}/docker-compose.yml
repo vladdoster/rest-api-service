@@ -1,0 +1,40 @@
+# Local development stack.
+services:
+  api:
+    build:
+      context: .
+      args:
+        APP_VERSION: local
+    ports:
+      - "{{ cookiecutter.port }}:{{ cookiecutter.port }}"
+    environment:
+      PORT: "{{ cookiecutter.port }}"
+{%- if cookiecutter.database != "none" %}
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: {{ cookiecutter.project_slug.replace('-', '_') }}
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: public.ecr.aws/docker/library/postgres:17-alpine
+    environment:
+      POSTGRES_DB: {{ cookiecutter.project_slug.replace('-', '_') }}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+{%- endif %}

@@ -1,0 +1,11 @@
+# the image needs only the files the Dockerfile COPYs; everything else
+# (.git from fetch-depth 0, .venv, tests) stays out of the context
+*
+!app
+!pyproject.toml
+!uv.lock
+{%- if cookiecutter.database != "none" %}
+!alembic.ini
+!migrations
+{%- endif %}
+**/__pycache__

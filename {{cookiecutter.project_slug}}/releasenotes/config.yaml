@@ -1,0 +1,4 @@
+# reno configuration (https://docs.openstack.org/reno/latest/)
+encoding: utf8
+# only vX.Y.Z tags delimit releases; reno reports versions as the tag text
+release_tag_re: '(v\d+\.\d+\.\d+)$'

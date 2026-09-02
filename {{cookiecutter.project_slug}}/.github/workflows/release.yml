@@ -1,0 +1,31 @@
+# Cut a release: writes VERSION + CHANGELOG.md, tags vX.Y.Z, publishes a
+# GitHub Release. Does NOT deploy; dispatch deploy.yml to ship the result.
+# Run from main for normal releases, or from a release/X.Y branch for
+# hotfixes (see platform-infra/docs/releasing-a-service.md).
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact version (X.Y.Z); leave empty to bump by release type
+        required: false
+        type: string
+      release_type:
+        description: Bump applied when version is empty
+        required: true
+        type: choice
+        default: patch
+        options: [patch, minor, major]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-release.yml@main
+    # nothing secret is needed today; kept for parity should the platform workflow grow a secret
+    secrets: inherit
+    with:
+      version: {% raw %}${{ inputs.version }}{% endraw %}
+      release_type: {% raw %}${{ inputs.release_type }}{% endraw %}

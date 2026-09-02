@@ -1,0 +1,30 @@
+[project]
+name = "{{ cookiecutter.project_slug }}"
+# static on purpose: VERSION and vX.Y.Z tags are the release pipeline's source of truth
+version = "0.0.0"
+description = "{{ cookiecutter.project_description }}"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[all]>=0.115",
+{%- if cookiecutter.database != "none" %}
+    "sqlalchemy>=2.0",
+    "alembic>=1.14",
+    "psycopg[binary]>=3.2",
+{%- endif %}
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+{%- if cookiecutter.database != "none" %}
+    # tests run the migrations and the items router against a throwaway Postgres 17 (needs Docker)
+    "testcontainers>=4.15",
+{%- endif %}
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

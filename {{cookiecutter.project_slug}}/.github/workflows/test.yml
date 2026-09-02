@@ -1,0 +1,33 @@
+name: test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    # release commits touch only metadata; the ignores document intent
+    paths-ignore:
+      - CHANGELOG.md
+      - VERSION
+      - 'releasenotes/**'
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+{%- if cookiecutter.database != "none" %}
+    # ubuntu-latest ships a Docker daemon; tests start Postgres through testcontainers (no service container needed)
+{%- endif %}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Run tests
+        run: uv run pytest

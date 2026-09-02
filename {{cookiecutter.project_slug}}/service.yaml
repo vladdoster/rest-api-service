@@ -1,0 +1,35 @@
+# Platform service spec; see platform-infra/docs/team-onboarding.md for the full reference.
+# Never declare OTEL_*, PORT, or DB_* under env: the platform injects them.
+name: {{ cookiecutter.project_slug }}
+port: {{ cookiecutter.port }}
+cpu: "{{ cookiecutter.cpu }}"
+memory: "{{ cookiecutter.memory }}"
+
+scaling:
+  min: {{ cookiecutter.scaling_min }}
+  max: {{ cookiecutter.scaling_max }}
+  cpuTargetPercent: 60
+
+env:
+  LOG_LEVEL: info
+
+# exposed at https://api.<env-domain>{{ cookiecutter.path_prefix }}/...
+ingress:
+  pathPrefix: {{ cookiecutter.path_prefix }}
+  healthCheckPath: /health
+  # priority: 12345            # ALB listener rule priority; omit to derive it from the name
+
+# service names allowed to call this service over the mesh (clients must deploy first)
+allowedClients: []
+
+database: {{ cookiecutter.database }}
+executeCommand: false
+
+# Remaining optional fields; keep them commented, the loader rejects unknown and empty keys:
+# secrets:                     # Secrets Manager values exposed as env vars
+#   - name: API_KEY            # env var name in the container
+#     arn: arn:aws:secretsmanager:REGION:ACCOUNT:secret:NAME
+#     jsonKey: api_key         # optional key inside a JSON secret
+# architecture: X86_64         # or ARM64 (deploy.yml builds x86; ARM64 needs buildx)
+# spot: true                   # Fargate Spot; defaults to true in dev only
+# compute: fargate             # lambda is not covered by this scaffold; see platform docs
