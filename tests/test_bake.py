@@ -70,7 +70,12 @@ def assert_common(project: Path, slug: str) -> None:
     for missing in ("frontend", "VERSION", "CHANGELOG.md", "openapi.json", "uv.lock"):
         assert not (project / missing).exists(), missing
     assert "frontend" not in yaml.safe_load(read(project, "service.yaml"))
-    assert "frontend_artifact" not in read(project, ".github/workflows/deploy.yml")
+    deploy = read(project, ".github/workflows/deploy.yml")
+    assert "frontend_artifact" not in deploy
+    # the ECR publish role's OIDC trust admits only the platform's reusable image workflow
+    assert deploy.count("service-image.yml@main") == 1
+    assert "configure-aws-credentials" not in deploy
+    assert "needs.build" not in deploy
     assert_scaffold_commit(project, slug)
 
 
