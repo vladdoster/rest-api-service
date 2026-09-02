@@ -16,8 +16,10 @@ from testcontainers.community.postgres import PostgresContainer
 from app.db import get_db, run_migrations
 from app.main import app
 
-# same image as docker-compose.yml; public ECR avoids Docker Hub pull limits
-POSTGRES_IMAGE = "public.ecr.aws/docker/library/postgres:17-alpine"
+# Docker Hub, not the public ECR mirror compose uses: GitHub-hosted runners pull Docker Hub without
+# rate limits, while anonymous ECR pulls from shared runner IPs fail intermittently (and docker-py
+# reports a failed pull as "no such image")
+POSTGRES_IMAGE = "postgres:17-alpine"
 
 
 @pytest.fixture(scope="session")
