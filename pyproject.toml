@@ -1,0 +1,15 @@
+[project]
+name = "rest-api-service"
+version = "0.1.0"
+description = "Cookiecutter template for REST API services on the platform (see platform-infra)."
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = ["cookiecutter>=2.6", "pytest>=8", "pytest-cookies>=0.7", "pyyaml>=6"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

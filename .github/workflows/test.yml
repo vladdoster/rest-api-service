@@ -1,0 +1,36 @@
+name: test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# the post-gen hook commits the scaffold; runners carry no git identity of their own
+env:
+  GIT_AUTHOR_NAME: github-actions
+  GIT_AUTHOR_EMAIL: github-actions@users.noreply.github.com
+  GIT_COMMITTER_NAME: github-actions
+  GIT_COMMITTER_EMAIL: github-actions@users.noreply.github.com
+
+jobs:
+  test:
+    # ubuntu-latest ships a Docker daemon; the database variant's smoke run starts Postgres via testcontainers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Bake tests
+        run: uv run pytest
+
+      - name: Smoke-test generated projects
+        run: make smoke
