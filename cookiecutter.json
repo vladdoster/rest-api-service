@@ -1,0 +1,28 @@
+{
+  "project_slug": "my-new-service",
+  "project_description": "REST API service on the vladdoster platform.",
+  "github_org": "vladdoster",
+  "domain": "vdoster.com",
+  "path_prefix": "/{{ cookiecutter.project_slug }}",
+  "port": 8080,
+  "cpu": "256",
+  "memory": "512",
+  "scaling_min": 1,
+  "scaling_max": 4,
+  "database": ["none", "shared", "dedicated"],
+  "deploy_environments": ["dev", "dev-staging-prod"],
+  "__prompts__": {
+    "project_slug": "Service name (lowercase letters, digits, hyphens; max 40 chars; becomes the repo and service.yaml name)",
+    "project_description": "One-line description of the service",
+    "github_org": "GitHub org hosting platform-infra and this service",
+    "domain": "Platform apex domain (services live at <name>.<env>.<domain>)",
+    "path_prefix": "Ingress path prefix (starts with /, no trailing /)",
+    "port": "Container port",
+    "cpu": "Fargate task CPU units (quoted string in service.yaml)",
+    "memory": "Fargate task memory in MiB (quoted string in service.yaml)",
+    "scaling_min": "Minimum task count",
+    "scaling_max": "Maximum task count",
+    "database": "Database: none, shared cluster, or dedicated instance",
+    "deploy_environments": "Deploy pipeline: dev only, or dev -> staging -> prod promotion"
+  }
+}
