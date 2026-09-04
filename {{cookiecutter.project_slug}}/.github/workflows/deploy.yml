@@ -2,8 +2,9 @@
 # Build once -> deploy dev -> deploy staging -> deploy prod. The same image
 # DIGEST is promoted through every environment; ECR replication mirrors it
 # from the dev registry into staging and prod automatically.
-# One-time repo setup: create environments dev, staging, prod under
-# Settings > Environments, and add required reviewers on prod.
+# One-time repo setup: create the prod environment under Settings > Environments
+# and add required reviewers BEFORE the first push reaches deploy-prod. GitHub
+# creates dev and staging, with no rules, the first time a job references them.
 {%- else %}
 # Build once via the platform's reusable image workflow, then deploy to dev.
 # Staging/prod jobs are omitted; add them back following
@@ -32,15 +33,13 @@ jobs:
   # publish role's OIDC trust only admits this platform workflow (job_workflow_ref)
   image:
     uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-image.yml@main
-    secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}
 
   deploy-dev:
     needs: image
+    # no secrets: AWS access is OIDC and the platform workflows read platform-infra through a composite action
     uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
-    # forwards PLATFORM_REPO_TOKEN, required while platform-infra is private
-    secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}
       environment: dev
@@ -50,7 +49,6 @@ jobs:
   deploy-staging:
     needs: [image, deploy-dev]
     uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
-    secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}
       environment: staging
@@ -59,7 +57,6 @@ jobs:
   deploy-prod:
     needs: [image, deploy-staging]
     uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
-    secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}
       environment: prod
