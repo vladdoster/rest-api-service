@@ -44,12 +44,14 @@ make revision m="add items"   # autogenerate a migration from app/models.py
    `repo: {{ cookiecutter.project_slug }}`, and `repoId` to `services.yaml` in
    `{{ cookiecutter.github_org }}/platform-infra`
    (`gh api repos/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }} --jq .id`).
-1. Run the `service-onboard` workflow in `{{ cookiecutter.github_org }}/platform-infra`
-   for this repo and each environment. It creates the GitHub environment and
-   installs the `AWS_ACCOUNT_ID_*`, `AWS_REGION`, and `PULUMI_STATE_BUCKET`
-   variables and the `PLATFORM_REPO_TOKEN` secret.
+1. Ask the platform owner to install the onboarding App on this repo, then run the
+   `service-onboard` workflow in `{{ cookiecutter.github_org }}/platform-infra` for
+   this repo and each environment. It sets the `AWS_ACCOUNT_ID_*`, `AWS_REGION`, and
+   `PULUMI_STATE_BUCKET` variables. GitHub creates each environment on the first
+   deploy that references it; no secrets are needed.
 {%- if cookiecutter.deploy_environments == "dev-staging-prod" %}
-1. Add required reviewers on the `prod` environment (repo Settings > Environments).
+1. Create the `prod` environment and add required reviewers (repo Settings >
+   Environments) before the first push that reaches `deploy-prod`.
 {%- endif %}
 1. Run `make install`. Commit `uv.lock` on top of the scaffold commit. CI installs with locked resolution.
 1. Cut the first release via the `release` workflow. It creates `VERSION` and
