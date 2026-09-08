@@ -31,14 +31,14 @@ jobs:
   # builds once in the dev account and returns a digest-pinned reference; the
   # publish role's OIDC trust only admits this platform workflow (job_workflow_ref)
   image:
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-image.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-image.yml@main
     secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}
 
   deploy-dev:
     needs: image
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-deploy.yml@main
     # forwards PLATFORM_REPO_TOKEN, required while platform-infra is private
     secrets: inherit
     with:
@@ -49,7 +49,7 @@ jobs:
 
   deploy-staging:
     needs: [image, deploy-dev]
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-deploy.yml@main
     secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}
@@ -58,7 +58,7 @@ jobs:
 
   deploy-prod:
     needs: [image, deploy-staging]
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-deploy.yml@main
     secrets: inherit
     with:
       service: {{ cookiecutter.project_slug }}

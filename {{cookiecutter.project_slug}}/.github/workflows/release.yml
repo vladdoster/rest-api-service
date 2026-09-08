@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   release:
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-release.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-release.yml@main
     # nothing secret is needed today; kept for parity should the platform workflow grow a secret
     secrets: inherit
     with:

@@ -1,6 +1,6 @@
 # {{ cookiecutter.project_slug }}
 
-{{ cookiecutter.project_description }} It runs on the platform (see `{{ cookiecutter.github_org }}/platform-infra`).
+{{ cookiecutter.project_description }} It runs on the platform (see `Starwake-Prototypes/platform-infra`).
 
 - API: the deploy stack's `url` output, `https://<api-id>.execute-api.<region>.amazonaws.com{{ cookiecutter.path_prefix }}/...`
   (the deploy workflow prints it in the job summary)
@@ -20,7 +20,7 @@
 - Releases: run the `release` workflow (Actions tab) to cut `vX.Y.Z`, the
   changelog, and a GitHub Release. Write a reno note with every change
   (`uvx reno new <slug>`). Never create `VERSION` or `CHANGELOG.md` by hand.
-  See `docs/releasing-a-service.md` in `{{ cookiecutter.github_org }}/platform-infra`.
+  See `docs/releasing-a-service.md` in `Starwake-Prototypes/platform-infra`.
 
 ## Local development
 
@@ -41,9 +41,9 @@ make revision m="add items"   # autogenerate a migration from app/models.py
 
 1. Register the service. Open a PR that adds `name: {{ cookiecutter.project_slug }}`,
    `repo: {{ cookiecutter.project_slug }}`, and `repoId` to `services.yaml` in
-   `{{ cookiecutter.github_org }}/platform-infra`
-   (`gh api repos/{{ cookiecutter.github_org }}/{{ cookiecutter.project_slug }} --jq .id`).
-1. Run the `service-onboard` workflow in `{{ cookiecutter.github_org }}/platform-infra`
+   `Starwake-Prototypes/platform-infra`
+   (`gh api repos/Starwake-Prototypes/{{ cookiecutter.project_slug }} --jq .id`).
+1. Run the `service-onboard` workflow in `Starwake-Prototypes/platform-infra`
    for this repo and each environment. It creates the GitHub environment and
    installs the `AWS_ACCOUNT_ID_*`, `AWS_REGION`, and `PULUMI_STATE_BUCKET`
    variables and the `PLATFORM_REPO_TOKEN` secret.

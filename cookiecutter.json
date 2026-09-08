@@ -1,7 +1,6 @@
 {
   "project_slug": "my-new-service",
-  "project_description": "REST API service on the vladdoster platform.",
-  "github_org": "vladdoster",
+  "project_description": "REST API service on the Starwake-Prototypes platform.",
   "path_prefix": "/{{ cookiecutter.project_slug }}",
   "port": 8080,
   "cpu": "256",
@@ -13,7 +12,6 @@
   "__prompts__": {
     "project_slug": "Service name (lowercase letters, digits, hyphens; max 40 chars; becomes the repo and service.yaml name)",
     "project_description": "One-line description of the service",
-    "github_org": "GitHub org hosting platform-infra and this service",
     "path_prefix": "Ingress path prefix (starts with /, no trailing /)",
     "port": "Container port",
     "cpu": "Fargate task CPU units (quoted string in service.yaml)",

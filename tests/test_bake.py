@@ -81,6 +81,11 @@ def assert_common(project: Path, slug: str) -> None:
     assert deploy.count("service-image.yml@main") == 1
     assert "configure-aws-credentials" not in deploy
     assert "needs.build" not in deploy
+    # the org is platform-owned, not prompted; every reusable-workflow call must target it
+    assert deploy.count("uses: Starwake-Prototypes/platform-infra/") == deploy.count("uses:")
+    release = read(project, ".github/workflows/release.yml")
+    assert "uses: Starwake-Prototypes/platform-infra/.github/workflows/service-release.yml@main" in release
+    assert "Starwake-Prototypes/platform-infra" in readme
     assert_scaffold_commit(project, slug)
 
 
