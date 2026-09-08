@@ -32,14 +32,14 @@ jobs:
   # builds once in the dev account and returns a digest-pinned reference; the
   # publish role's OIDC trust only admits this platform workflow (job_workflow_ref)
   image:
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-image.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-image.yml@main
     with:
       service: {{ cookiecutter.project_slug }}
 
   deploy-dev:
     needs: image
     # no secrets: AWS access is OIDC and the platform workflows read platform-infra through a composite action
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-deploy.yml@main
     with:
       service: {{ cookiecutter.project_slug }}
       environment: dev
@@ -48,7 +48,7 @@ jobs:
 
   deploy-staging:
     needs: [image, deploy-dev]
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-deploy.yml@main
     with:
       service: {{ cookiecutter.project_slug }}
       environment: staging
@@ -56,7 +56,7 @@ jobs:
 
   deploy-prod:
     needs: [image, deploy-staging]
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-deploy.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-deploy.yml@main
     with:
       service: {{ cookiecutter.project_slug }}
       environment: prod

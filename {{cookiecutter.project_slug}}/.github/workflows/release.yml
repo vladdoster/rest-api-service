@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   release:
-    uses: {{ cookiecutter.github_org }}/platform-infra/.github/workflows/service-release.yml@main
+    uses: Starwake-Prototypes/platform-infra/.github/workflows/service-release.yml@main
     with:
       version: {% raw %}${{ inputs.version }}{% endraw %}
       release_type: {% raw %}${{ inputs.release_type }}{% endraw %}
