@@ -65,6 +65,9 @@ def assert_common(project: Path, slug: str) -> None:
     for name, text in workflow_texts(project).items():
         assert_fully_rendered(text, name)
         yaml.safe_load(text)
+        # the platform workflows take no secrets; inherit would hand them every repo secret
+        assert "secrets: inherit" not in text, name
+        assert "PLATFORM_REPO_TOKEN" not in text, name
     for path in project.rglob("*.py"):
         assert_fully_rendered(path.read_text(), str(path.relative_to(project)))
     for missing in ("frontend", "VERSION", "CHANGELOG.md", "openapi.json", "uv.lock"):

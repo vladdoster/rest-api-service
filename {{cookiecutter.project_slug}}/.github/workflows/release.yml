@@ -24,8 +24,6 @@ permissions:
 jobs:
   release:
     uses: Starwake-Prototypes/platform-infra/.github/workflows/service-release.yml@main
-    # nothing secret is needed today; kept for parity should the platform workflow grow a secret
-    secrets: inherit
     with:
       version: {% raw %}${{ inputs.version }}{% endraw %}
       release_type: {% raw %}${{ inputs.release_type }}{% endraw %}
