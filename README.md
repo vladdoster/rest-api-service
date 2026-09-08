@@ -1,6 +1,6 @@
 # rest-api-service
 
-Cookiecutter template for REST API services on the platform (`vladdoster/platform-infra`),
+Cookiecutter template for REST API services on the platform (`Starwake-Prototypes/platform-infra`),
 the REST-only sibling of `service-gen`: same conventions, no frontend option.
 
 It generates a GitHub-ready service repo that contains:
@@ -25,7 +25,7 @@ Requires cookiecutter >= 2.6.
 ```sh
 uvx cookiecutter /path/to/rest-api-service
 # or, once this repo is pushed:
-uvx cookiecutter gh:vladdoster/rest-api-service
+uvx cookiecutter gh:Starwake-Prototypes/rest-api-service
 ```
 
 ## Variables
@@ -34,13 +34,15 @@ uvx cookiecutter gh:vladdoster/rest-api-service
 |---|---|---|
 | `project_slug` | `my-new-service` | Service, repo, and `service.yaml` name (lowercase alphanumerics joined by single hyphens, max 40 chars) |
 | `project_description` | ... | One-liner used in README and pyproject |
-| `github_org` | `vladdoster` | Org hosting platform-infra and this service |
 | `path_prefix` | `/<slug>` | Ingress path prefix (`/orders`). Independent of the name |
 | `port` | `8080` | Container port |
 | `cpu` / `memory` | `256` / `512` | Fargate task size. The hook checks the pair against the sizes ECS accepts |
 | `scaling_min` / `scaling_max` | `1` / `4` | Task count bounds |
 | `database` | `none` | `none`, `shared`, or `dedicated`. A non-none value adds SQLAlchemy, alembic, the `Item` example, compose Postgres, and testcontainers tests |
 | `deploy_environments` | `dev` | `dev` or `dev-staging-prod` promotion pipeline |
+
+The GitHub org is not a variable. Generated workflows and READMEs point at
+`Starwake-Prototypes/platform-infra`.
 
 The template does not prompt for `secrets`, `allowedClients`, `spot`, `architecture`,
 `ingress.priority`, or `executeCommand`, but emits them in the generated
