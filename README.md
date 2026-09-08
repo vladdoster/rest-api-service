@@ -35,7 +35,6 @@ uvx cookiecutter gh:vladdoster/rest-api-service
 | `project_slug` | `my-new-service` | Service, repo, and `service.yaml` name (lowercase alphanumerics joined by single hyphens, max 40 chars) |
 | `project_description` | ... | One-liner used in README and pyproject |
 | `github_org` | `vladdoster` | Org hosting platform-infra and this service |
-| `domain` | `vdoster.com` | Platform apex domain |
 | `path_prefix` | `/<slug>` | Ingress path prefix (`/orders`). Independent of the name |
 | `port` | `8080` | Container port |
 | `cpu` / `memory` | `256` / `512` | Fargate task size. The hook checks the pair against the sizes ECS accepts |
@@ -44,9 +43,9 @@ uvx cookiecutter gh:vladdoster/rest-api-service
 | `deploy_environments` | `dev` | `dev` or `dev-staging-prod` promotion pipeline |
 
 The template does not prompt for `secrets`, `allowedClients`, `spot`, `architecture`,
-`ingress.priority`, `executeCommand`, or `compute`, but emits them in the generated
-`service.yaml` as commented reference blocks. `compute: lambda` and static
-frontends are out of scope. Use `service-gen` for a service with a frontend.
+`ingress.priority`, or `executeCommand`, but emits them in the generated
+`service.yaml` as commented reference blocks. Static frontends are out of scope.
+Use `service-gen` for a service with a frontend.
 
 ## Development
 

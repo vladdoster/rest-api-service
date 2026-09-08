@@ -2,8 +2,9 @@
 
 {{ cookiecutter.project_description }} It runs on the platform (see `{{ cookiecutter.github_org }}/platform-infra`).
 
-- API: `https://api.dev.{{ cookiecutter.domain }}{{ cookiecutter.path_prefix }}/...`
-- Interactive docs (dev only): `https://api.dev.{{ cookiecutter.domain }}{{ cookiecutter.path_prefix }}/docs`
+- API: the deploy stack's `url` output, `https://<api-id>.execute-api.<region>.amazonaws.com{{ cookiecutter.path_prefix }}/...`
+  (the deploy workflow prints it in the job summary)
+- Interactive docs (dev only): `<url>/docs`
 - Health check: `GET /health`
 {%- if cookiecutter.database != "none" %}
 - Example resource: `POST/GET {{ cookiecutter.path_prefix }}/items`, `GET {{ cookiecutter.path_prefix }}/items/{id}`
@@ -20,8 +21,6 @@
   changelog, and a GitHub Release. Write a reno note with every change
   (`uvx reno new <slug>`). Never create `VERSION` or `CHANGELOG.md` by hand.
   See `docs/releasing-a-service.md` in `{{ cookiecutter.github_org }}/platform-infra`.
-- Compute: Fargate. This scaffold does not cover `compute: lambda`. If you need it,
-  write `service.yaml` by hand per the platform docs.
 
 ## Local development
 

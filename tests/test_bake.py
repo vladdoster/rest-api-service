@@ -73,6 +73,11 @@ def assert_common(project: Path, slug: str) -> None:
     for missing in ("frontend", "VERSION", "CHANGELOG.md", "openapi.json", "uv.lock"):
         assert not (project / missing).exists(), missing
     assert "frontend" not in yaml.safe_load(read(project, "service.yaml"))
+    # the platform serves AWS-generated URLs only; the scaffold must not promise a custom API host
+    readme = read(project, "README.md")
+    assert "execute-api" in readme
+    assert "api.dev." not in readme
+    assert "env-domain" not in read(project, "service.yaml")
     deploy = read(project, ".github/workflows/deploy.yml")
     assert "frontend_artifact" not in deploy
     # the ECR publish role's OIDC trust admits only the platform's reusable image workflow
